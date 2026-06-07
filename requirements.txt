@@ -1,0 +1,8 @@
+streamlit
+pandas
+fpdf2
+python-docx
+python-pptx
+plotly
+xlsxwriter
+streamlit-js-eval
