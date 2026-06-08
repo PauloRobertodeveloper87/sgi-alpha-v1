@@ -86,8 +86,21 @@ def init_db():
     conn.commit()
     conn.close()
 
-init_db()
-# --- CONTINUAÇÃO DO BANCO DE DADOS ---
+def init_db():
+    conn = sqlite3.connect('sgi_omega_v80.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS equipe 
+                 (id INTEGER PRIMARY KEY, nome TEXT, cargo TEXT, esfera TEXT, 
+                  reciclagem DATE, icc INTEGER, fadiga INTEGER)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS ativos 
+                 (id TEXT PRIMARY KEY, categoria TEXT, local TEXT, vencimento DATE, status TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS licencas 
+                 (id INTEGER PRIMARY KEY, nome TEXT, orgao TEXT, vencimento DATE, risco TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS colegiados 
+                 (id INTEGER PRIMARY KEY, tipo TEXT, data TEXT, pauta TEXT, acao TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS auditorias 
+                 (id INTEGER PRIMARY KEY, data TEXT, local TEXT, alvo TEXT, relato TEXT, 
+                  tcr REAL, glosa REAL, lei TEXT, iso TEXT, acao TEXT, hash TEXT)''')
     conn.commit()
     conn.close()
 
@@ -99,7 +112,7 @@ GLOS = {
     "LTO": "License to Operate: Alvarás, AVCBs e Certificações vitais para o posto.",
     "ICC": "Índice de Confiabilidade: Probabilidade de desvio técnico/acidente.",
     "PMOC": "Plano de Manutenção de Ar Condicionado (Obrigatório Lei 13.589/18).",
-    "NR-37": "Norma para Segurança e Saúde em Plataformas de Petróleo (Offshore).",
+    "7": "Norma para Segurança e Saúde em Plataformas de Petróleo (Offshore).",
     "RBAC 117": "Regulamento da ANAC sobre Gerenciamento de Risco de Fadiga Humana.",
     "L14.967/24": "Estatuto Seg. Privada: Marco regulador de conduta e penalidades PF.",
     "SLA": "Service Level Agreement: Acordo de nível de serviço com multas."
