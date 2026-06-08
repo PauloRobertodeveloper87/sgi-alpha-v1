@@ -468,4 +468,34 @@ def avaliar_impacto_esg(gravidade):
     impactos = {"Baixa": "Neutro", "Média": "Alerta Social",
                 "Alta": "Risco de Governança", "Crítica": "Dano Grave"}
     return impactos.get(gravidade, "Analisando")
+    with tab_boutique:
+    if 'v80_rep' in st.session_state:
+        res_esg = avaliar_impacto_esg(st.session_state['v80_rep']['gravidade'])
+        st.session_state['v80_rep']['esg'] = res_esg
+# --- 20. MOTOR DE GERAÇÃO DE SLIDES CORPORATIVOS (PPTX) ---
+def criar_apresentacao_v80(d):
+    prs = Presentation()
+    slide = prs.slides.add_slide(prs.slide_layouts[1])
+    title = slide.shapes.title
+    title.text = f"GESTÃO DE RISCO SGI - {d['local']}"
+    body = slide.placeholders[1]
+    body.text = f"Evento: {d['medida']}\nImpacto ESG: {d['esg']}\nROI: R$ {d['tcr']:,.2f}"
+    buf_p = io.BytesIO()
+    prs.save(buf_p)
+    return buf_p.getvalue()
+# --- 21. FERRAMENTA DE EXPORTAÇÃO EXCEL PARA BI ---
+def exportar_excel_bi(d):
+    df_bi = pd.DataFrame([d])
+    buf_e = io.BytesIO()
+    with pd.ExcelWriter(buf_e, engine='xlsxwriter') as writer:
+    df_bi.to_excel(writer, index=False, sheet_name='Base_SGI')
+    return buf_e.getvalue()
+with tab_boutique:
+    if 'v80_rep' in st.session_state:
+        d_final = st.session_state['v80_rep']
+        st.divider()
+        st.subheader("📊 Documentação de Board (PPT & BI)")
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            st.download_button("📊 PPT: SLIDES DE BOARD", criar_apresentacao_v80(d_final), "SGI_Slides.pptx", use_container_width=True)
     
