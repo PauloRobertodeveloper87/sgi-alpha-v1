@@ -61,19 +61,15 @@ st.markdown("""
 def init_db():
     conn = sqlite3.connect('sgi_guardian.db')
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS equipe 
-                 (id INTEGER PRIMARY KEY, nome TEXT, cargo TEXT, esfera TEXT, '''
-    reciclagem DATE, icc INTEGER, fadiga INTEGER)''')
-    c.execute('''CREATE TABLE IF NOT EXISTS ativos 
-                 (id TEXT PRIMARY KEY, categoria TEXT, local TEXT, 
-                  vencimento DATE, status TEXT)''')
-    c.execute('''CREATE TABLE IF NOT EXISTS licencas
-    (id INTEGER PRIMARY KEY, nome TEXT, orgao TEXT, vencimento DATE, status TEXT)''')
-    c.execute('CREATE TABLE IF NOT EXISTS colegiados (id INTEGER PRIMARY KEY, tipo TEXT, data TEXT, pauta TEXT, acao TEXT)')
-    c.execute('CREATE TABLE IF NOT EXISTS auditorias (id INTEGER PRIMARY KEY, data TEXT, local TEXT, alvo TEXT, relato TEXT, tcr REAL, glosa REAL, lei TEXT, iso TEXT, acao TEXT, hash TEXT, gps TEXT)')
+    c.execute('''CREATE TABLE IF NOT EXISTS equipe (id INTEGER PRIMARY KEY, nome TEXT, cargo TEXT, esfera TEXT, reciclagem DATE, icc INTEGER, fadiga INTEGER)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS ativos (id TEXT PRIMARY KEY, categoria TEXT, local TEXT, vencimento DATE, status TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS licencas (id INTEGER PRIMARY KEY, nome TEXT, orgao TEXT, vencimento DATE, status TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS colegiados (id INTEGER PRIMARY KEY, tipo TEXT, data TEXT, pauta TEXT, acao TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS auditorias (id INTEGER PRIMARY KEY, data TEXT, local TEXT, alvo TEXT, relato TEXT, tcr REAL, glosa REAL, lei TEXT, iso TEXT, acao TEXT, hash TEXT, gps TEXT)''')
     conn.commit()
     conn.close()
-    init_db()
+
+init_db()
 # --- 3. GLOSSÁRIO TÉCNICO I-HELP 6.0 (A TO Z) ---
 GLOS = {
     "TCR": "Total Cost of Risk: Soma de multas, glosas, dano à imagem e honorários.",
