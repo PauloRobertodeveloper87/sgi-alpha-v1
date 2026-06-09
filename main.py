@@ -86,54 +86,31 @@ def i_help(termo):
         st.info(GLOS.get(termo, "Legislação e SGI 2027."))
         # --- 4. MOTOR DE INTELIGÊNCIA JURÍDICO-EXECUTIVA ---
 def motor_apex_v80(dados):
-    # Cálculo de TCR e Impacto 2026/2027
     prejuizos = {"Baixa": 45000, "Média": 150000, "Alta": 750000, "Crítica": 6500000}
     multa_base = prejuizos.get(dados['gravidade'], 50000)
     tcr = multa_base * 4.8 
-    glosa = multa_base * 0.25 
-    # Biblioteca de Doutrina Forense Universal
+    glosa = multa_base * 0.25
     biblioteca = {
-        "OFFSHORE / MAR": {
-    "lei": "NR-37 + NORMAM-204/DPC + NR-13 + Lei 5.811/72 + STCW.",
-            "iso": "ISO 14001:2026 e ISO 45001:2026.",
-            "pilar": "SMS Marítimo"
-        },
-        "AVIAÇÃO / CÉU": {
-            "lei": "RBAC 107 (AVSEC) + RBAC 153/155 + RBAC 117 (Fadiga) + ANAC.",
-            "iso": "ISO 9001:2026 e Gestão de Riscos ANAC.",
-            "pilar": "Safety & AVSEC"
-        },
-        "HOSPITALAR / SAÚDE": {
-    "lei": "RDC 222 ANVISA + NR-32 + ISO 9001:2026 + Ética Profissional.",
-            "iso": "ISO 9001:2026 e Biossegurança.",
-            "pilar": "SGI Saúde"
-        },
-        "INDUSTRIAL / TERRA": {
-            "lei": "NRs (01, 10, 11, 12, 35) + IT-17 Bombeiros + CLT Art. 482.",
-            "iso": "ISO 45001 (SST) e ISO 14001 (Ambiental).",
-            "pilar": "HSE / SST Industrial"
-        },
-        "SEGURANÇA PRIVADA": {
-    "lei": "Lei 14.967/2024 (Novo Estatuto) + Portaria 18.045/23 PF.",
-            "iso": "ISO 37301 (Compliance) e ISO 31000 (Riscos).",
-            "pilar": "HSG (Governança)"
-        }
+        "OFFSHORE / MAR": {"lei": "NR-37 + NORMAM-204 + NR-13 + Lei 5.811/72", "iso": "ISO 14001:2026/45001", "pilar": "SMS Marítimo"},
+        "AVIAÇÃO / CÉU": {"lei": "RBAC 107/153 + RBAC 117 (Fadiga)", "iso": "ISO 9001:2026", "pilar": "Safety & AVSEC"},
+        "HOSPITALAR / SAÚDE": {"lei": "RDC 222 ANVISA + NR-32", "iso": "ISO 9001:2026", "pilar": "SGI Saúde"},
+        "INDUSTRIAL / TERRA": {"lei": "NRs (01, 10, 11, 12, 35) + IT-17 Bombeiros", "iso": "ISO 45001", "pilar": "HSE Industrial"},
+        "SEGURANÇA PRIVADA": {"lei": "Lei 14.967/24 + Portaria 18.045/23 PF", "iso": "ISO 37301/45001", "pilar": "HSG (Governança)"}
     }
     ref = biblioteca.get(dados['setor'], biblioteca["INDUSTRIAL / TERRA"])
-    # Redação da Medida Resolutiva
-    medidas_dict = {
-        "Advertência": "advertência formal com caráter pedagógico.",
-        "Suspensão": "suspensão disciplinar coercitiva para preservação da segurança.",
-    "Substituição": "substituição definitiva do colaborador visando a salvaguarda do contrato.",
-        "Desligamento": "rescisão por justa causa amparada em quebra de fidúcia técnica.",
-        "Reciclagem": "retirada de posto para reciclagem técnica compulsória em escola homologada."
-    }
-    texto = f"Prezado Cliente, informamos o encerramento do ciclo SGI na unidade {dados['local']} relativo ao alvo {dados['alvo']}.\\n\\n"
-    texto += f"1. PARECER TÉCNICO-LEGAL: O desvio identificado (\\"{dados['relato']}\\") foi confrontado com a {ref['lei']}.\\n"
-    texto += f"O fato infringe as diretrizes de governança e as normas {ref['iso']}, gerando risco de interdição.\\n\\n"
-    texto += f"2. TRATAMENTO E RESOLUÇÃO: Priorizando o SLA, aplicamos a medida de {medidas_dict.get(dados['medida'])} imediata.\\n"
-    texto += f"A eficácia foi validada via evidência visual 'After' e prova de presença georreferenciada."
-    return texto, tcr, glosa, ref['lei']
+    medidas = {"Advertência": "advertência", "Suspensão": "suspensão", "Substituição": "substituição", "Desligamento": "justa causa", "Reciclagem": "reciclagem"}
+    h = hashlib.sha512(dados['relato'].encode()).hexdigest()[:16].upper()
+    texto = f"""Prezado Cliente, informamos a resolução definitiva da ocorrência no posto {dados['local']} relativa ao alvo {dados['alvo']}.
+1. PARECER TÉCNICO-LEGAL: O desvio identificado ("{dados['relato']}") foi confrontado com a {ref['lei']}. O fato infringe as diretrizes de {ref['pilar']} e as normas {ref['iso']}.
+2. TRATAMENTO E RESOLUÇÃO: Priorizando a segurança e a CONTINUIDADE DO NEGÓCIO, aplicamos a medida de {medidas.get(dados['medida'])} imediata. A eficácia foi validada via evidência visual e GPS.
+3. IMPACTO EXECUTIVO: Esta intervenção preventiva evitou um Total Cost of Risk (TCR) de R$ {tcr:,.2f} e uma glosa de R$ {glosa:,.2f}.
+ID Digital: {h}"""
+return texto, tcr, glosa, ref['lei']
+# --- FIM DA CORREÇÃO DO MOTOR ---
+# Reparo de aspas concluído.
+# Procedendo para validação de SGI.
+# Linha final do motor de inteligência.
+    
     # --- 5. INTERFACE DE COMANDO TITAN ---
 st.title("🛡️ SGI Guardian")
 st.subheader("Supreme Sovereign Command Matrix")
